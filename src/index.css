@@ -8,17 +8,6 @@ html {
 
 body {
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.main {
-    flex: 1;
-}
-
-.bg-dark {
-    background-color: #12002b;
 }
 
 .sr-only {
@@ -33,6 +22,10 @@ body {
     position: absolute !important;
     width: 1px !important;
     white-space: nowrap !important; /* 3 */
+}
+header {
+    width: calc(100vw - 40px);
+    background-color: white;
 }
 
 .main-nav {
@@ -164,18 +157,24 @@ body {
     background-color: #00bc77;
     color: #fff;
 }
+.main {
+    padding: 50px;
+    min-height: calc(100vh - 245px);
+}
 
+.bg-dark {
+    background-color: #12002b;
+}
 .sign-in-content {
     box-sizing: border-box;
     background-color: white;
     width: 300px;
     margin: 0 auto;
-    margin-top: 3rem;
     padding: 2rem;
 }
 
 .sign-in-icon {
-    font-size: 5rem;
+    font-size: 1rem;
 }
 
 .input-remember {
@@ -201,7 +200,11 @@ body {
     padding: 5px;
     font-size: 1.2rem;
 }
-
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
 .footer {
     display: flex;
     justify-content: center;
@@ -259,11 +262,6 @@ body {
     padding: 10px;
 }
 
-.header {
-    color: #fff;
-    margin-bottom: 2rem;
-}
-
 .transaction-button {
     display: block;
     width: 100%;
@@ -288,4 +286,12 @@ body {
     .transaction-button {
         width: 200px;
     }
+}
+
+.fa-user-circle {
+    margin-right: 5px;
+}
+
+.header h1 {
+    color: white;
 }
