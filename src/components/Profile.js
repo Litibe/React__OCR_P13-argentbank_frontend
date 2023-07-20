@@ -1,11 +1,30 @@
-export default function User() {
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+export default function Profile() {
+    document.title = "ArgentBank - Welcome ";
+    const getUserDetails = useSelector((state) => state.userDetails);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (getUserDetails.token === undefined) {
+        } else {
+            if (getUserDetails.firstName !== undefined) {
+                document.title += " " + getUserDetails.firstName + " !";
+            }
+        }
+    }, [getUserDetails, navigate]);
     return (
         <main className="main bg-dark">
             <div className="header">
                 <h1>
                     Welcome back
                     <br />
-                    Tony Jarvis!
+                    {getUserDetails.firstName !== undefined &&
+                        getUserDetails.firstName}{" "}
+                    {getUserDetails.lastName !== undefined &&
+                        getUserDetails.lastName}{" "}
+                    !
                 </h1>
                 <button className="edit-button">Edit Name</button>
             </div>

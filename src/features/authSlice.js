@@ -1,29 +1,61 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export const authSlice = createSlice({
     name: "auth",
     initialState: {
-        value: 0,
+        token: undefined,
     },
     reducers: {
-        increment: (state) => {
-            // Redux Toolkit allows us to write "mutating" logic in reducers. It
-            // doesn't actually mutate the state because it uses the Immer library,
-            // which detects changes to a "draft state" and produces a brand new
-            // immutable state based off those changes.
-            // Also, no return statement is required from these functions.
-            state.value += 1;
+        login: async (usernameUser, passwordUser, rememberUser) => {
+            console.log(usernameUser);
+            toast("Demande de connexion... ", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+            });
+            const response = await fetch(
+                "http://localhost:3001/api/v1/user/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        usernameUser,
+                        passwordUser,
+                    }),
+                }
+            );
+            const data = await response.json();
+            if (response.status === 200) {
+                localStorage.setItem("authTokens", JSON.stringify(data));
+            } else if (response.status === 400) {
+                toast.warn(
+                    "Merci de vérifier vos informations de connexion ... ",
+                    {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                        autoClose: 2000,
+                    }
+                );
+            } else {
+                toast.error("Impossible de se connecter ... ", {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 2000,
+                });
+            }
         },
-        decrement: (state) => {
-            state.value -= 1;
+        logged: (state) => {
+            state.token = localStorage.getItem("authTokens")
+                ? JSON.parse(localStorage.getItem("authTokens"))
+                : null;
         },
-        incrementByAmount: (state, action) => {
-            state.value += action.payload;
+        logout: (state) => {
+            localStorage.removeItem("authTokens");
+            state.token = undefined;
         },
     },
 });
 
-// Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = authSlice.actions;
+export const { login, logged, logout } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,21 +1,30 @@
 import { StrictMode } from "react";
+import reportWebVitals from "./reportWebVitals";
 
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-
-import "./index.css";
 import Router from "./Router/router.jsx";
-import reportWebVitals from "./reportWebVitals";
+
 import { Provider } from "react-redux";
-import configureStore from "./store";
+import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "./features/redux/reducers";
+import "./assets/css/index.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const router = Router();
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const store = configureStore({
+    reducer: rootReducer,
+    devTools: true,
+});
+
+//store.dispatch(postUserLogin());
 root.render(
-    <Provider store={configureStore}>
+    <Provider store={store}>
         <StrictMode>
             <RouterProvider router={router} />
+            <ToastContainer />
         </StrictMode>
     </Provider>
 );

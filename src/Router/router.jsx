@@ -5,23 +5,57 @@ import {
     Route,
     Outlet,
 } from "react-router-dom";
-import { useEffect, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import HomePage from "../components/HomePage";
 import SignIn from "../components/SignIn";
-import User from "../components/User";
+import {
+    obtainUserDetails,
+    userLogout,
+    setUserTokenWithLocalStorage,
+} from "../features/redux/actions/user.actions";
+import Profile from "../components/Profile";
 
-const ProtectedRoute = ({ redirectPath = "/connexion", children }) => {
+const ProtectedRoute = ({ redirectPath = "/sign-in", children }) => {
     const navigate = useNavigate();
-    //const { userConnected } = useContext(ConfigServerContext);
-
-    function redirectLogin() {
-        navigate("/sign-in");
-    }
-
+    const dispatch = useDispatch();
+    let getUserDetails = useSelector((state) => state.userDetails);
+    const localTokenAccess = localStorage.getItem("tokenAccess")
+        ? localStorage.getItem("tokenAccess")
+        : null;
+    useEffect(() => {
+        if (getUserDetails.token === undefined && localTokenAccess === null) {
+            navigate(redirectPath);
+        } else if (
+            getUserDetails.token === undefined &&
+            localTokenAccess !== null
+        ) {
+            dispatch(setUserTokenWithLocalStorage(localTokenAccess));
+            dispatch(obtainUserDetails(localTokenAccess));
+        }
+    }, [getUserDetails, localTokenAccess]);
     return children ? children : <Outlet />;
 };
+
+function RedirectHome() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        navigate("/", { replace: true });
+    }, [navigate]);
+}
+
+function LogOut() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    dispatch(userLogout());
+    useEffect(() => {
+        navigate("/", { replace: true });
+    }, [navigate]);
+}
 
 export default function Router() {
     const router = createBrowserRouter(
@@ -49,17 +83,18 @@ export default function Router() {
                             </>
                         }
                     />
-
+                    <Route path="/sign-out" element={<LogOut />} />
                     <Route
-                        path="/user/"
+                        path="/profile/"
                         element={
-                            <>
+                            <ProtectedRoute>
                                 <Header />
-                                <User />
+                                <Profile />
                                 <Footer />
-                            </>
+                            </ProtectedRoute>
                         }
                     ></Route>
+                    <Route index path="*" element={<RedirectHome />}></Route>
                 </Route>
             </>
         )

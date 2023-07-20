@@ -3,6 +3,7 @@ import iconMoney from "../assets/img/icon-money.png";
 import iconSecurity from "../assets/img/icon-security.png";
 
 export default function HomePage() {
+    document.title = "ArgentBank - HomePage";
     return (
         <main>
             <div className="hero">
