@@ -84,6 +84,50 @@ export const obtainUserDetails = (token) => {
     };
 };
 
+export const putUserDetails = (token, putData) => {
+    return (dispatch) => {
+        return axios
+            .put("http://localhost:3001/api/v1/user/profile", putData, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+                toast.success(res.data.message, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                });
+                return dispatch({
+                    type: "PUT__USER_DETAILS",
+                    email: res.data.body.email,
+                    firstName: res.data.body.firstName,
+                    lastName: res.data.body.lastName,
+                    createdAt: res.data.body.createdAt,
+                    updateAt: res.data.body.updatedAt,
+                    id: res.data.body.id,
+                });
+            })
+            .catch((error) => {
+                if (error.response) {
+                    if (error.response.status === 400) {
+                        toast.warn(error.response.data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        });
+                    } else if (error.response.status === 401) {
+                        toast.error(error.response.data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        });
+                    } else if (error.response.status === 500) {
+                        toast.error(error.response.data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        });
+                    }
+                    return dispatch({
+                        type: "PUT__USER_DETAILS",
+                        data: null,
+                    });
+                }
+            });
+    };
+};
+
 export const userLogout = () => {
     localStorage.removeItem("tokenAccess");
     return (dispatch) => {

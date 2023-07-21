@@ -12,11 +12,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import HomePage from "../components/HomePage";
 import SignIn from "../components/SignIn";
-import {
-    obtainUserDetails,
-    userLogout,
-    setUserTokenWithLocalStorage,
-} from "../features/redux/actions/user.actions";
+import { userLogout } from "../features/redux/actions/user.actions";
 import Profile from "../components/Profile";
 
 const ProtectedRoute = ({ redirectPath = "/sign-in", children }) => {
@@ -29,14 +25,8 @@ const ProtectedRoute = ({ redirectPath = "/sign-in", children }) => {
     useEffect(() => {
         if (getUserDetails.token === undefined && localTokenAccess === null) {
             navigate(redirectPath);
-        } else if (
-            getUserDetails.token === undefined &&
-            localTokenAccess !== null
-        ) {
-            dispatch(setUserTokenWithLocalStorage(localTokenAccess));
-            dispatch(obtainUserDetails(localTokenAccess));
         }
-    }, [getUserDetails, localTokenAccess]);
+    }, [getUserDetails, localTokenAccess, navigate, redirectPath]);
     return children ? children : <Outlet />;
 };
 

@@ -208,6 +208,51 @@ header {
     padding: 5px;
     font-size: 1.2rem;
 }
+.form-profile {
+    width: 90%;
+    margin: 0 auto 30px auto;
+    @media (min-width: 920px) {
+        width: 450px;
+        display: flex;
+        flex-direction: column;
+    }
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: fit-content;
+    margin: auto;
+}
+.input {
+    margin: auto;
+    padding: 10px;
+    width: 200px;
+    height: 40px;
+}
+.input input {
+    margin: 0 5px;
+    padding-left: 10px;
+    color: #9b9999;
+}
+.center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.edit-button-profile {
+    margin: 0 5px 5px 5px;
+    padding: 10px;
+    width: 120px;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: #00bc77 1px solid;
+    background-color: #dffaf1;
+    color: #027f51;
+}
 footer {
     position: fixed;
     bottom: 0;
@@ -269,6 +314,7 @@ footer {
     color: #fff;
     font-weight: bold;
     padding: 10px;
+    margin: 0px 20px 20px 20px;
 }
 
 .transaction-button {
@@ -303,4 +349,38 @@ footer {
 
 .header h1 {
     color: white;
+}
+
+.placeholder {
+    margin: 0 auto;
+    max-width: 200px;
+    min-height: 100px;
+    background-color: #eee;
+}
+
+@keyframes placeHolderShimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.animated-background {
+    animation-duration: 1.25s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: darkgray;
+    background: linear-gradient(
+        to right,
+        #eeeeee 10%,
+        #dddddd 18%,
+        #eeeeee 33%
+    );
+    background-size: 800px 104px;
+    height: 100px;
+    position: relative;
 }

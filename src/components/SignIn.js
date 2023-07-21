@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-    postUserLogin,
-    obtainUserDetails,
-} from "../features/redux/actions/user.actions";
+import { postUserLogin } from "../features/redux/actions/user.actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -23,8 +20,6 @@ export default function SignIn() {
     const getUserDetails = useSelector((state) => state.userDetails);
     useEffect(() => {
         if (getUserDetails.token !== undefined) {
-            dispatch(obtainUserDetails(getUserDetails.token));
-            console.log(checkRememberMe);
             if (checkRememberMe === "on") {
                 localStorage.setItem("tokenAccess", getUserDetails.token);
             }

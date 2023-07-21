@@ -14,6 +14,16 @@ export default function userDetails(state = initialState, action) {
                 updateAt: action.updateAt,
                 id: action.id,
             };
+        case "PUT__USER_DETAILS":
+            return {
+                ...state,
+                email: action.email,
+                firstName: action.firstName,
+                lastName: action.lastName,
+                createdAt: action.createdAt,
+                updateAt: action.updateAt,
+                id: action.id,
+            };
         case "SET__USERTOKEN_LOCALSTORAGE":
             return { ...state, token: action.token };
         case "USER_LOGOUT":
