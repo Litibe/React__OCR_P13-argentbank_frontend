@@ -2,8 +2,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const postUserLogin = (data) => {
-    return (dispatch) => {
-        return axios
+    return async (dispatch) => {
+        return await axios
             .post("http://localhost:3001/api/v1/user/login", data)
             .then((res) => {
                 return dispatch({
@@ -23,6 +23,13 @@ export const postUserLogin = (data) => {
                         });
                     }
                     return dispatch({ type: "POST__USER_LOGIN", token: null });
+                } else {
+                    toast.error(
+                        "Impossible de se connecter, Serveur Login HS",
+                        {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        }
+                    );
                 }
             });
     };

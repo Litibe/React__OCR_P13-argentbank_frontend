@@ -16,14 +16,13 @@ export default function Header() {
     useEffect(() => {
         if (getUserDetails.token === undefined && localTokenAccess !== null) {
             dispatch(setUserTokenWithLocalStorage(localTokenAccess));
-            dispatch(obtainUserDetails(getUserDetails.token));
         } else if (
             getUserDetails.token !== undefined &&
             getUserDetails.id === undefined
         ) {
             dispatch(obtainUserDetails(getUserDetails.token));
         }
-    }, [getUserDetails.token, getUserDetails.id]);
+    }, [getUserDetails.token, getUserDetails.id, localTokenAccess, dispatch]);
 
     return (
         <header className="main-nav">

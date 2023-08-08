@@ -13,11 +13,12 @@ import Footer from "../components/Footer";
 import HomePage from "../components/HomePage";
 import SignIn from "../components/SignIn";
 import { userLogout } from "../features/redux/actions/user.actions";
+import { accountLogout } from "../features/redux/actions/account.actions";
 import Profile from "../components/Profile";
+import Account from "../components/Account";
 
 const ProtectedRoute = ({ redirectPath = "/sign-in", children }) => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     let getUserDetails = useSelector((state) => state.userDetails);
     const localTokenAccess = localStorage.getItem("tokenAccess")
         ? localStorage.getItem("tokenAccess")
@@ -42,6 +43,7 @@ function LogOut() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     dispatch(userLogout());
+    dispatch(accountLogout());
     useEffect(() => {
         navigate("/", { replace: true });
     }, [navigate]);
@@ -80,6 +82,16 @@ export default function Router() {
                             <ProtectedRoute>
                                 <Header />
                                 <Profile />
+                                <Footer />
+                            </ProtectedRoute>
+                        }
+                    ></Route>
+                    <Route
+                        path="/profile/account/:idAccount/"
+                        element={
+                            <ProtectedRoute>
+                                <Header />
+                                <Account />
                                 <Footer />
                             </ProtectedRoute>
                         }

@@ -7,17 +7,22 @@ export default function SignIn() {
     document.title = "ArgentBank - Sign In";
     const form = useRef();
     const dispatch = useDispatch();
+    const getUserDetails = useSelector((state) => state.userDetails);
+    const [connectUser, setConnectUser] = useState(false);
     const handleForm = async (e) => {
         e.preventDefault();
         const postData = {
             email: form.current[0].value,
             password: form.current[1].value,
         };
-        dispatch(postUserLogin(postData));
+        if (getUserDetails.token === undefined && connectUser === false) {
+            setConnectUser(true);
+            dispatch(postUserLogin(postData));
+        }
     };
     const [checkRememberMe, setCheckRememberMe] = useState(undefined);
     const navigate = useNavigate();
-    const getUserDetails = useSelector((state) => state.userDetails);
+
     useEffect(() => {
         if (getUserDetails.token !== undefined) {
             if (checkRememberMe === "on") {

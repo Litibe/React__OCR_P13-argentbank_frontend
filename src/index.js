@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import reportWebVitals from "./reportWebVitals";
 
 import ReactDOM from "react-dom/client";
@@ -19,13 +18,10 @@ const store = configureStore({
     devTools: true,
 });
 
-//store.dispatch(postUserLogin());
 root.render(
     <Provider store={store}>
-        <StrictMode>
-            <RouterProvider router={router} />
-            <ToastContainer />
-        </StrictMode>
+        <RouterProvider router={router} />
+        <ToastContainer />
     </Provider>
 );
 

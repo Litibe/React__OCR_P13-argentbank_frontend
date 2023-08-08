@@ -1,33 +1,99 @@
+import axios from "axios";
+
 import { toast } from "react-toastify";
 
-export const POST_LOGIN = "POST_LOGIN";
+export const GET_LIST_USER_ACCOUNTS = "GET_LIST_USER_ACCOUNTS";
 
-export const postLogin = () => {
-    return async (dispatch) => {
-        const response = await fetch(
-            "http://localhost:3001/api/v1/user/login",
-            {
-                method: "post",
-                headers: new Headers({
-                    Accept: "application/json",
-                }),
-                body: {},
-            }
-        );
-        const data = await response.json();
-        if (data.status === 200) {
-            toast.success("Connexion OK", {
-                position: toast.POSITION.BOTTOM_RIGHT,
+export const getUserAccounts = (token) => {
+    return (dispatch) => {
+        return axios
+            .get("http://localhost:3001/api/v1/accounts/", {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+                return dispatch({
+                    type: "GET_LIST_USER_ACCOUNTS",
+                    accounts: res.data.body.accounts,
+                });
+            })
+            .catch((error) => {
+                if (error.response) {
+                    if (error.response.status === 400) {
+                        toast.warn(error.response.data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        });
+                    } else if (error.response.status === 500) {
+                        toast.error(error.response.data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        });
+                    }
+                    return dispatch({
+                        type: "GET_LIST_USER_ACCOUNTS",
+                        accounts: null,
+                    });
+                } else {
+                    toast.error(
+                        "Impossible de se connecter, Serveur Comptes HS",
+                        {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        }
+                    );
+                }
             });
-        } else if (data.status === 400) {
-            toast.warn("Champs Invalides", {
-                position: toast.POSITION.BOTTOM_RIGHT,
+    };
+};
+
+export const GET_LIST_TRANSACTIONS_ACCOUNT =
+    "GET_LIST_TRANSACTIONS_ACCOUNT_SELECTED";
+
+export const getTransactionAccount = (token, idAccount) => {
+    return (dispatch) => {
+        return axios
+            .get(
+                `http://localhost:3001/api/v1/accounts/${idAccount}/transactions/`,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            )
+            .then((res) => {
+                return dispatch({
+                    type: "GET_LIST_TRANSACTIONS_ACCOUNT_SELECTED",
+                    transactions: res.data.body.transactions,
+                });
+            })
+            .catch((error) => {
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        toast.warn(error.response.data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        });
+                    } else if (error.response.status === 404) {
+                        toast.error(error.response.data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        });
+                    } else if (error.response.status === 500) {
+                        toast.error(error.response.data.message, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        });
+                    }
+                    return dispatch({
+                        type: "GET_LIST_TRANSACTIONS_ACCOUNT_SELECTED",
+                        transactions: null,
+                    });
+                } else {
+                    toast.error(
+                        "Impossible de se connecter, Serveur Transactions HS",
+                        {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        }
+                    );
+                }
             });
-        } else if (data.status === 500) {
-            toast.error("Erreur Serveur", {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
-        }
-        console.log(data);
+    };
+};
+
+export const accountLogout = () => {
+    return (dispatch) => {
+        return dispatch({ type: "USER_LOGOUT" });
     };
 };

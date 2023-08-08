@@ -24,8 +24,10 @@ body {
     white-space: nowrap !important; /* 3 */
 }
 header {
-    width: calc(100vw - 40px);
+    width: 100vw;
     background-color: white;
+    font-size: 14px;
+    width: calc(100vw - 60px);
 }
 
 .main-nav {
@@ -51,9 +53,11 @@ header {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    font-size: 12px;
 }
+
 .main-nav-item .fa {
-    font-size: 24px;
+    font-size: 18px;
     margin-left: 0.7rem;
     margin-right: 0.3rem;
 }
@@ -101,38 +105,9 @@ header {
     font-size: 0.9rem;
 }
 
-@media (min-width: 920px) {
-    .hero {
-        height: 400px;
-        background-position: 0% 33%;
-    }
-
-    .hero-content {
-        position: absolute;
-        top: 50px;
-        right: 50px;
-        width: 300px;
-        margin: 2rem;
-    }
-
-    .hero-content .subtitle {
-        font-size: 1.5rem;
-    }
-
-    .hero-content .text {
-        font-size: 1.2rem;
-    }
-}
-
 .features {
     display: flex;
     flex-direction: column;
-}
-
-@media (min-width: 920px) {
-    .features {
-        flex-direction: row;
-    }
 }
 
 .feature-icon {
@@ -166,8 +141,8 @@ header {
     color: #fff;
 }
 .main {
-    padding: 50px;
-    min-height: calc(100vh - 245px);
+    padding: 10px;
+    min-height: calc(100vh);
 }
 
 .bg-dark {
@@ -211,11 +186,6 @@ header {
 .form-profile {
     width: 90%;
     margin: 0 auto 30px auto;
-    @media (min-width: 920px) {
-        width: 450px;
-        display: flex;
-        flex-direction: column;
-    }
 }
 .row {
     display: flex;
@@ -253,6 +223,10 @@ header {
     background-color: #dffaf1;
     color: #027f51;
 }
+.customer {
+    color: #8b8989;
+    margin-bottom: 10px;
+}
 footer {
     position: fixed;
     bottom: 0;
@@ -260,15 +234,12 @@ footer {
     background: white;
 }
 .footer {
-    display: flex;
-    justify-content: center;
     border-top: 2px solid #ccc;
-    padding: 2rem 0 1.5rem;
+    padding: 1rem 0;
 }
 
 .footer-text {
-    margin: 0;
-    padding: 0;
+    margin: auto;
 }
 
 .account {
@@ -307,6 +278,9 @@ footer {
     width: 100%;
     flex: 1;
 }
+.transaction-button-link {
+    text-decoration: none;
+}
 
 .edit-button {
     border-color: #00bc77;
@@ -327,20 +301,6 @@ footer {
     border-color: #00bc77;
     background-color: #00bc77;
     color: #fff;
-}
-
-@media (min-width: 720px) {
-    .account {
-        flex-direction: row;
-    }
-
-    .account-content-wrapper.cta {
-        flex: 0;
-    }
-
-    .transaction-button {
-        width: 200px;
-    }
 }
 
 .fa-user-circle {
@@ -383,4 +343,146 @@ footer {
     background-size: 800px 104px;
     height: 100px;
     position: relative;
+}
+
+.text-center {
+    text-align: center;
+}
+.table_transaction {
+    display: flex;
+    flex-direction: column;
+    margin: 5px auto;
+    background-color: white;
+    height: 80px;
+    overflow: hidden;
+}
+.table_transaction_title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    font-size: 12px;
+}
+.table_transaction_element {
+    min-height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 13px;
+}
+.col {
+    display: flex;
+    flex-direction: column;
+}
+.col-transation {
+    width: 25%;
+}
+.fa-chevron-up {
+    font-size: 18px;
+}
+.transaction-date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.fa-chevron-up:hover,
+.fa-pencil:hover {
+    cursor: pointer;
+}
+.transaction-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    padding-left: 10px;
+    height: 0;
+    font-size: 13px;
+    overflow: hidden;
+    padding: 10px;
+    background-color: #eeeeee;
+}
+.transaction_edit_input {
+    width: 50%;
+    margin: 10px;
+    padding: 5px;
+}
+
+@media (min-width: 920px) {
+    .hero {
+        height: 400px;
+        background-position: 0% 33%;
+    }
+
+    .hero-content {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        width: 300px;
+        margin: 2rem;
+    }
+
+    .hero-content .subtitle {
+        font-size: 1.5rem;
+    }
+
+    .hero-content .text {
+        font-size: 1.2rem;
+    }
+    .features {
+        flex-direction: row;
+    }
+    .form-profile {
+        width: 450px;
+        display: flex;
+        flex-direction: column;
+    }
+    .main {
+        padding: 50px;
+    }
+}
+
+@media (min-width: 720px) {
+    header {
+        width: calc(100vw - 40px);
+    }
+    .main-nav-item {
+        font-size: 16px;
+    }
+    .main-nav-item .fa {
+        font-size: 24px;
+    }
+    .account {
+        flex-direction: row;
+    }
+
+    .account-content-wrapper.cta {
+        flex: 0;
+    }
+
+    .transaction-button {
+        width: 200px;
+    }
+    .transaction-details {
+        margin-left: 100px;
+    }
+    .main {
+        padding: 20px;
+        min-height: calc(100vh - 140px);
+    }
+    .fa-chevron-up {
+        font-size: 26px;
+    }
+    .table_transaction_title {
+        font-size: 16px;
+    }
+    .table_transaction_element,
+    .transaction-details {
+        font-size: 16px;
+    }
+    .footer {
+        padding: 2rem 0 1.5rem;
+    }
 }

@@ -1,21 +1,27 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { putUserDetails } from "../features/redux/actions/user.actions";
+import { getUserAccounts } from "../features/redux/actions/account.actions";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
     document.title = "ArgentBank - Welcome ";
     const getUserDetails = useSelector((state) => state.userDetails);
     const form = useRef();
     const dispatch = useDispatch();
+    const getAccounts = useSelector((state) => state.accountsUser);
 
     useEffect(() => {
-        if (getUserDetails.token === undefined) {
-        } else {
+        if (getUserDetails.token !== undefined) {
             if (getUserDetails.firstName !== undefined) {
                 document.title += " " + getUserDetails.firstName + " !";
             }
+            if (getAccounts.accounts === undefined) {
+                dispatch(getUserAccounts(getUserDetails.token));
+            }
+            console.log(getAccounts.accounts);
         }
-    }, [getUserDetails]);
+    }, [getAccounts, getUserDetails]);
 
     const [showEditUser, setShowEditUser] = useState(false);
 
@@ -47,7 +53,9 @@ export default function Profile() {
                     !
                 </h1>
                 {getUserDetails.id !== undefined && (
-                    <h2>N°Customer : {getUserDetails.id}</h2>
+                    <div className="customer">
+                        N°Customer : {getUserDetails.id}
+                    </div>
                 )}
                 {showEditUser === false ? (
                     <button
@@ -101,7 +109,8 @@ export default function Profile() {
                 )}
             </div>
             <h2 className="sr-only">Accounts</h2>
-            {getUserDetails.id !== undefined && (
+            {getUserDetails.id !== undefined &&
+            getAccounts.accounts === null ? (
                 <>
                     <section className="account">
                         <div className="account-content-wrapper">
@@ -151,6 +160,43 @@ export default function Profile() {
                             </button>
                         </div>
                     </section>
+                </>
+            ) : (
+                <>
+                    {getAccounts !== {} && getAccounts !== undefined && (
+                        <>
+                            {getAccounts.accounts !== undefined &&
+                                getAccounts.accounts !== null &&
+                                getAccounts.accounts.map((account) => (
+                                    <>
+                                        <section className="account">
+                                            <div className="account-content-wrapper">
+                                                <h3 className="account-title">
+                                                    {account.name} (x
+                                                    {account.id})
+                                                </h3>
+                                                <p className="account-amount">
+                                                    $ {account.balance}{" "}
+                                                </p>
+                                                <p className="account-amount-description">
+                                                    {account.description}
+                                                </p>
+                                            </div>
+                                            <div className="account-content-wrapper cta">
+                                                <Link
+                                                    to={`/profile/account/${account.id}`}
+                                                    className="transaction-button-link"
+                                                >
+                                                    <button className="transaction-button">
+                                                        View transactions
+                                                    </button>
+                                                </Link>
+                                            </div>
+                                        </section>
+                                    </>
+                                ))}
+                        </>
+                    )}
                 </>
             )}
         </main>
