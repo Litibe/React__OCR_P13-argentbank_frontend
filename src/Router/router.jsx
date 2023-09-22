@@ -20,14 +20,17 @@ import Account from "../components/Account";
 const ProtectedRoute = ({ redirectPath = "/sign-in", children }) => {
     const navigate = useNavigate();
     let getUserDetails = useSelector((state) => state.userDetails);
-    const localTokenAccess = localStorage.getItem("tokenAccess")
-        ? localStorage.getItem("tokenAccess")
+    const localtokenAccessBank = localStorage.getItem("tokenAccessBank")
+        ? localStorage.getItem("tokenAccessBank")
         : null;
     useEffect(() => {
-        if (getUserDetails.token === undefined && localTokenAccess === null) {
+        if (
+            getUserDetails.token === undefined &&
+            localtokenAccessBank === null
+        ) {
             navigate(redirectPath);
         }
-    }, [getUserDetails, localTokenAccess, navigate, redirectPath]);
+    }, [getUserDetails, localtokenAccessBank, navigate, redirectPath]);
     return children ? children : <Outlet />;
 };
 

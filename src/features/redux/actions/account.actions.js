@@ -7,7 +7,7 @@ export const GET_LIST_USER_ACCOUNTS = "GET_LIST_USER_ACCOUNTS";
 export const getUserAccounts = (token) => {
     return (dispatch) => {
         return axios
-            .get("http://localhost:3001/api/v1/accounts/", {
+            .get("http://localhost:8000/api/v1/accounts/", {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
@@ -32,12 +32,9 @@ export const getUserAccounts = (token) => {
                         accounts: null,
                     });
                 } else {
-                    toast.error(
-                        "Impossible de se connecter, Serveur Comptes HS",
-                        {
-                            position: toast.POSITION.BOTTOM_RIGHT,
-                        }
-                    );
+                    toast.error("ERROR CONNEXION WITH SERVER", {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                    });
                 }
             });
     };
@@ -50,7 +47,7 @@ export const getTransactionAccount = (token, idAccount) => {
     return (dispatch) => {
         return axios
             .get(
-                `http://localhost:3001/api/v1/accounts/${idAccount}/transactions/`,
+                `http://localhost:8000/api/v1/accounts/${idAccount}/transactions/`,
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }
@@ -81,12 +78,9 @@ export const getTransactionAccount = (token, idAccount) => {
                         transactions: null,
                     });
                 } else {
-                    toast.error(
-                        "Impossible de se connecter, Serveur Transactions HS",
-                        {
-                            position: toast.POSITION.BOTTOM_RIGHT,
-                        }
-                    );
+                    toast.error("ERROR CONNEXION WITH SERVER", {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                    });
                 }
             });
     };

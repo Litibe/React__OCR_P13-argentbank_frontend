@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 export const postUserLogin = (data) => {
     return async (dispatch) => {
         return await axios
-            .post("http://localhost:3001/api/v1/user/login", data)
+            .post("http://localhost:8000/api/v1/user/login", data)
             .then((res) => {
                 return dispatch({
                     type: "POST__USER_LOGIN",
@@ -17,12 +17,15 @@ export const postUserLogin = (data) => {
                         toast.warn(error.response.data.message, {
                             position: toast.POSITION.BOTTOM_RIGHT,
                         });
+                    } else if (error.response.status === 401) {
+                        toast.error("Merci de verifier vos identifiants", {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                        });
                     } else if (error.response.status === 500) {
                         toast.error(error.response.data.message, {
                             position: toast.POSITION.BOTTOM_RIGHT,
                         });
                     }
-                    return dispatch({ type: "POST__USER_LOGIN", token: null });
                 } else {
                     toast.error(
                         "Impossible de se connecter, Serveur Login HS",
@@ -45,22 +48,11 @@ export const obtainUserDetails = (token) => {
     return (dispatch) => {
         return axios
             .post(
-                "http://localhost:3001/api/v1/user/profile",
+                "http://localhost:8000/api/v1/user/profile",
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             )
             .then((res) => {
-                toast.success(
-                    `Welcome ${
-                        res.data.body.firstName
-                    } ! Last Connexion : ${res.data.body.updatedAt.slice(
-                        0,
-                        10
-                    )}`,
-                    {
-                        position: toast.POSITION.BOTTOM_RIGHT,
-                    }
-                );
                 return dispatch({
                     type: "POST__USER_OBTAIN_DETAILS",
                     email: res.data.body.email,
@@ -77,6 +69,13 @@ export const obtainUserDetails = (token) => {
                         toast.warn(error.response.data.message, {
                             position: toast.POSITION.BOTTOM_RIGHT,
                         });
+                    } else if (error.response.status === 401) {
+                        toast.error(
+                            "Your session is expired, please reconnect you",
+                            {
+                                position: toast.POSITION.BOTTOM_RIGHT,
+                            }
+                        );
                     } else if (error.response.status === 500) {
                         toast.error(error.response.data.message, {
                             position: toast.POSITION.BOTTOM_RIGHT,
@@ -94,7 +93,7 @@ export const obtainUserDetails = (token) => {
 export const putUserDetails = (token, putData) => {
     return (dispatch) => {
         return axios
-            .put("http://localhost:3001/api/v1/user/profile", putData, {
+            .put("http://localhost:8000/api/v1/user/profile", putData, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
@@ -136,7 +135,7 @@ export const putUserDetails = (token, putData) => {
 };
 
 export const userLogout = () => {
-    localStorage.removeItem("tokenAccess");
+    localStorage.removeItem("tokenAccessBank");
     return (dispatch) => {
         return dispatch({ type: "USER_LOGOUT" });
     };

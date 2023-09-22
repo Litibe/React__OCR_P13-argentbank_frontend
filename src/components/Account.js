@@ -21,16 +21,21 @@ export default function Account() {
     const [editCategory, setEditCategory] = useState(false);
     const [newNotes, setnewNotes] = useState(undefined);
     const [editNotes, setEditNotes] = useState(false);
+    const [listAccounts, setListAccount] = useState([]);
     useEffect(() => {
-        if (getUserDetails.token === undefined) {
-        } else {
-            if (getUserDetails.firstName !== undefined) {
-                document.title += " " + getUserDetails.firstName + " !";
-            }
+        if (getUserDetails.token !== undefined) {
             dispatch(getUserAccounts(getUserDetails.token));
             dispatch(getTransactionAccount(getUserDetails.token, idAccount));
         }
     }, [dispatch, getUserDetails, idAccount]);
+
+    useEffect(() => {
+        if (getAccounts !== undefined && getAccounts !== null) {
+            const myListAccount = [];
+            getAccounts.map((element) => myListAccount.push(element.id));
+            setListAccount(myListAccount);
+        }
+    }, [dispatch, getAccounts, getUserDetails, idAccount]);
 
     const handleWatchTransaction = async (e) => {
         e.preventDefault();
@@ -50,7 +55,7 @@ export default function Account() {
         }
     };
     return (
-        <main className="main bg-dark">
+        <main className="bg-dark vh-100">
             {getAccounts !== undefined &&
                 getAccounts.map((account) => (
                     <div key={account.id}>
@@ -69,102 +74,148 @@ export default function Account() {
                         )}
                     </div>
                 ))}
-            <div className="transactions">
-                <div className="table_transaction_title">
-                    <div className="col-transation transaction-date">
-                        <span></span>
-                        <span>Date</span>
-                    </div>
-                    <div className="col-transation">Description</div>
-                    <div className="col-transation">Amount</div>
-                    <div className="col-transation">Balance</div>
-                </div>
-                {getTransactions !== undefined &&
-                    getTransactions.map((transac) => (
-                        <div key={transac.id} className="table_transaction">
-                            <div className="table_transaction_element">
+            {!listAccounts.includes(parseInt(idAccount, 10)) ? (
+                <h1>
+                    Account number not found, please return to homepage your
+                    account
+                </h1>
+            ) : (
+                <>
+                    {getTransactions !== undefined &&
+                    getTransactions !== null &&
+                    getTransactions.length > 0 ? (
+                        <div className="transactions">
+                            <div className="table_transaction_title">
                                 <div className="col-transation transaction-date">
-                                    <i
-                                        onClick={(e) =>
-                                            handleWatchTransaction(e)
-                                        }
-                                        className="fa-solid fa-chevron-up"
-                                    ></i>
-                                    <span>{transac.date}</span>
+                                    <span></span>
+                                    <span>Date</span>
                                 </div>
                                 <div className="col-transation">
-                                    {transac.description}
+                                    Description
                                 </div>
-                                <div className="col-transation">
-                                    $ {transac.amount}
-                                </div>
-                                <div className="col-transation">
-                                    $ {transac.balance}
-                                </div>{" "}
-                            </div>{" "}
-                            <div className="transaction-details">
-                                <div>
-                                    <span>Transaction Type : </span>
-                                    {transac.transactionType}
-                                </div>
-                                <div>
-                                    <span>Catetogy : </span>
-                                    {transac.category}{" "}
-                                    <i
-                                        className="fa-solid fa-pencil"
-                                        onClick={(e) => {
-                                            setEditCategory(!editCategory);
-                                            setNewCategory(transac.category);
-                                        }}
-                                    ></i>
-                                </div>
-                                {editCategory === true && (
-                                    <select
-                                        id="categoryInput"
-                                        className="transaction_edit_input"
-                                        name="select"
-                                        type="select"
-                                        onChange={(e) =>
-                                            setNewCategory(e.target.value)
-                                        }
-                                    >
-                                        <option value="Credit">Credit</option>
-                                        <option value="Food">Food</option>
-                                        <option value="Sport">Sports</option>
-                                        <option value="Technology">
-                                            Technology
-                                        </option>
-                                    </select>
-                                )}
-
-                                <div>
-                                    <span>Notes : </span>
-                                    {transac.notes}{" "}
-                                    <i
-                                        className="fa-solid fa-pencil"
-                                        onClick={(e) => {
-                                            setEditNotes(!editNotes);
-                                            setnewNotes(transac.notes);
-                                        }}
-                                    ></i>
-                                </div>
-                                {editNotes === true && (
-                                    <input
-                                        id="notesInput"
-                                        name="select"
-                                        className="transaction_edit_input"
-                                        type="text"
-                                        defaultValue={newNotes}
-                                        onChange={(e) =>
-                                            setnewNotes(e.target.value)
-                                        }
-                                    />
-                                )}
+                                <div className="col-transation">Amount</div>
+                                <div className="col-transation">Balance</div>
                             </div>
+                            {getTransactions !== undefined &&
+                                getTransactions !== null &&
+                                getTransactions.map((transac) => (
+                                    <div
+                                        key={transac.id}
+                                        className="table_transaction"
+                                    >
+                                        <div className="table_transaction_element">
+                                            <div className="col-transation transaction-date">
+                                                <i
+                                                    onClick={(e) =>
+                                                        handleWatchTransaction(
+                                                            e
+                                                        )
+                                                    }
+                                                    className="fa-solid fa-chevron-up"
+                                                ></i>
+                                                <span>{transac.date}</span>
+                                            </div>
+                                            <div className="col-transation">
+                                                {transac.description}
+                                            </div>
+                                            <div className="col-transation">
+                                                $ {transac.amount}
+                                            </div>
+                                            <div className="col-transation">
+                                                $ {transac.balance}
+                                            </div>{" "}
+                                        </div>{" "}
+                                        <div className="transaction-details">
+                                            <div>
+                                                <span>Transaction Type : </span>
+                                                {transac.transactionType}
+                                            </div>
+                                            <div>
+                                                <span>Catetory : </span>
+                                                {transac.category}{" "}
+                                                <i
+                                                    className="fa-solid fa-pencil"
+                                                    onClick={(e) => {
+                                                        setEditCategory(
+                                                            !editCategory
+                                                        );
+                                                        setNewCategory(
+                                                            transac.category
+                                                        );
+                                                    }}
+                                                ></i>
+                                            </div>
+                                            {editCategory === true && (
+                                                <select
+                                                    id="categoryInput"
+                                                    className="transaction_edit_input"
+                                                    name="select"
+                                                    type="select"
+                                                    onChange={(e) =>
+                                                        setNewCategory(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option
+                                                        value={transac.category}
+                                                    >
+                                                        {transac.category}
+                                                    </option>
+                                                    <option value="Credit">
+                                                        Credit
+                                                    </option>
+                                                    <option value="Food">
+                                                        Food
+                                                    </option>
+                                                    <option value="Sport">
+                                                        Sports
+                                                    </option>
+                                                    <option value="Technology">
+                                                        Technology
+                                                    </option>
+                                                </select>
+                                            )}
+
+                                            <div>
+                                                <span>Notes : </span>
+                                                {transac.notes}{" "}
+                                                <i
+                                                    className="fa-solid fa-pencil"
+                                                    onClick={(e) => {
+                                                        setEditNotes(
+                                                            !editNotes
+                                                        );
+                                                        setnewNotes(
+                                                            transac.notes
+                                                        );
+                                                    }}
+                                                ></i>
+                                            </div>
+                                            {editNotes === true && (
+                                                <input
+                                                    id="notesInput"
+                                                    name="select"
+                                                    className="transaction_edit_input"
+                                                    type="text"
+                                                    defaultValue={newNotes}
+                                                    onChange={(e) =>
+                                                        setnewNotes(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            ;
                         </div>
-                    ))}
-                ;
-            </div>
+                    ) : (
+                        <h1>No transactions recorded on this account</h1>
+                    )}
+                </>
+            )}
         </main>
     );
 }

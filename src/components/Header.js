@@ -10,19 +10,22 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Header() {
     const getUserDetails = useSelector((state) => state.userDetails);
     const dispatch = useDispatch();
-    const localTokenAccess = localStorage.getItem("tokenAccess")
-        ? localStorage.getItem("tokenAccess")
+    const localtokenAccessBank = localStorage.getItem("tokenAccessBank")
+        ? localStorage.getItem("tokenAccessBank")
         : null;
     useEffect(() => {
-        if (getUserDetails.token === undefined && localTokenAccess !== null) {
-            dispatch(setUserTokenWithLocalStorage(localTokenAccess));
+        if (
+            getUserDetails.token === undefined &&
+            localtokenAccessBank !== null
+        ) {
+            dispatch(setUserTokenWithLocalStorage(localtokenAccessBank));
         } else if (
             getUserDetails.token !== undefined &&
             getUserDetails.id === undefined
         ) {
             dispatch(obtainUserDetails(getUserDetails.token));
         }
-    }, [getUserDetails.token, getUserDetails.id, localTokenAccess, dispatch]);
+    }, [getUserDetails.token, getUserDetails.id, localtokenAccessBank]);
 
     return (
         <header className="main-nav">

@@ -15,10 +15,7 @@ export default function SignIn() {
             email: form.current[0].value,
             password: form.current[1].value,
         };
-        if (getUserDetails.token === undefined && connectUser === false) {
-            setConnectUser(true);
-            dispatch(postUserLogin(postData));
-        }
+        dispatch(postUserLogin(postData));
     };
     const [checkRememberMe, setCheckRememberMe] = useState(undefined);
     const navigate = useNavigate();
@@ -26,7 +23,7 @@ export default function SignIn() {
     useEffect(() => {
         if (getUserDetails.token !== undefined) {
             if (checkRememberMe === "on") {
-                localStorage.setItem("tokenAccess", getUserDetails.token);
+                localStorage.setItem("tokenAccessBank", getUserDetails.token);
             }
             navigate("/profile");
         }
@@ -51,12 +48,12 @@ export default function SignIn() {
                         />
                     </div>
                     <div className="input-remember">
+                        <label htmlFor="remember-me">Remember me :</label>{" "}
                         <input
                             type="checkbox"
                             id="remember-me"
                             onClick={(e) => setCheckRememberMe(e.target.value)}
                         />
-                        <label htmlFor="remember-me">Remember me :</label>
                     </div>
 
                     <button className="sign-in-button" type="submit">

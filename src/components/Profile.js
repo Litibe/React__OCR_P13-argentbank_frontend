@@ -19,7 +19,6 @@ export default function Profile() {
             if (getAccounts.accounts === undefined) {
                 dispatch(getUserAccounts(getUserDetails.token));
             }
-            console.log(getAccounts.accounts);
         }
     }, [getAccounts, getUserDetails]);
 
@@ -163,37 +162,38 @@ export default function Profile() {
                 </>
             ) : (
                 <>
-                    {getAccounts !== {} && getAccounts !== undefined && (
+                    {getAccounts !== null && getAccounts !== undefined && (
                         <>
                             {getAccounts.accounts !== undefined &&
                                 getAccounts.accounts !== null &&
                                 getAccounts.accounts.map((account) => (
-                                    <>
-                                        <section className="account">
-                                            <div className="account-content-wrapper">
-                                                <h3 className="account-title">
-                                                    {account.name} (x
-                                                    {account.id})
-                                                </h3>
-                                                <p className="account-amount">
-                                                    $ {account.balance}{" "}
-                                                </p>
-                                                <p className="account-amount-description">
-                                                    {account.description}
-                                                </p>
-                                            </div>
-                                            <div className="account-content-wrapper cta">
-                                                <Link
-                                                    to={`/profile/account/${account.id}`}
-                                                    className="transaction-button-link"
-                                                >
-                                                    <button className="transaction-button">
-                                                        View transactions
-                                                    </button>
-                                                </Link>
-                                            </div>
-                                        </section>
-                                    </>
+                                    <section
+                                        className="account"
+                                        key={account.id}
+                                    >
+                                        <div className="account-content-wrapper">
+                                            <h3 className="account-title">
+                                                {account.name} (x
+                                                {account.id})
+                                            </h3>
+                                            <p className="account-amount">
+                                                $ {account.balance}{" "}
+                                            </p>
+                                            <p className="account-amount-description">
+                                                {account.description}
+                                            </p>
+                                        </div>
+                                        <div className="account-content-wrapper cta">
+                                            <Link
+                                                to={`/profile/account/${account.id}`}
+                                                className="transaction-button-link"
+                                            >
+                                                <button className="transaction-button">
+                                                    View transactions
+                                                </button>
+                                            </Link>
+                                        </div>
+                                    </section>
                                 ))}
                         </>
                     )}
