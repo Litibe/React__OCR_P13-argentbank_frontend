@@ -9,19 +9,19 @@ export default function Profile() {
     const getUserDetails = useSelector((state) => state.userDetails);
     const form = useRef();
     const dispatch = useDispatch();
+    const token = useSelector((state) => state.userDetails.token);
     const getAccounts = useSelector((state) => state.accountsUser);
 
     useEffect(() => {
-        if (getUserDetails.token !== null) {
-            if (getUserDetails.firstName !== null) {
-                document.title += " " + getUserDetails.firstName + " !";
+        setTimeout(() => {
+            if (token !== null) {
+                if (getAccounts !== null && getAccounts.accounts === null) {
+                    dispatch(getUserAccounts(token));
+                }
             }
-            if (getAccounts.accounts === null) {
-                dispatch(getUserAccounts(getUserDetails.token));
-            }
-        }
+        }, 500);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getAccounts, getUserDetails]);
+    }, [token, getUserDetails]);
 
     const [showEditUser, setShowEditUser] = useState(false);
 

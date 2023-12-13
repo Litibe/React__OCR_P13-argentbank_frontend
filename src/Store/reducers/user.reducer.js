@@ -32,7 +32,6 @@ export default function userDetails(state = initialState, action) {
                 updateAt: action.updateAt,
                 id: action.id,
             };
-
         case "USER_LOGOUT":
             return initialState;
         default:

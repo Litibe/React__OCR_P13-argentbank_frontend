@@ -16,7 +16,8 @@ export default function Account() {
     const getTransactions = useSelector(
         (state) => state.accountsUser.transactions
     );
-    const [setNewCategory] = useState(undefined);
+    // eslint-disable-next-line no-unused-vars
+    const [nexCategory, setNewCategory] = useState(undefined);
     const [editCategory, setEditCategory] = useState(false);
     const [newNotes, setnewNotes] = useState(undefined);
     const [editNotes, setEditNotes] = useState(false);
@@ -26,7 +27,8 @@ export default function Account() {
             dispatch(getUserAccounts(getUserDetails.token));
             dispatch(getTransactionAccount(getUserDetails.token, idAccount));
         }
-    }, [dispatch, getUserDetails, idAccount]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getUserDetails, idAccount]);
 
     useEffect(() => {
         if (getAccounts !== null) {
@@ -34,7 +36,7 @@ export default function Account() {
             getAccounts.map((element) => myListAccount.push(element.id));
             setListAccount(myListAccount);
         }
-    }, [dispatch, getAccounts, getUserDetails, idAccount]);
+    }, [getAccounts]);
 
     const handleWatchTransaction = async (e) => {
         e.preventDefault();

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 export const postUserLogin = (data) => {
     return async (dispatch) => {
         return await axios
-            .post("http://localhost:8000/api/v1/user/login", data)
+            .post("http://localhost:3001/api/v1/user/login", data)
             .then((res) => {
                 return dispatch({
                     type: "POST__USER_LOGIN",
@@ -14,11 +14,11 @@ export const postUserLogin = (data) => {
             .catch((error) => {
                 if (error.response) {
                     if (error.response.status === 400) {
-                        toast.warn(error.response.data.message, {
+                        toast.warn("Please check your login details", {
                             position: toast.POSITION.BOTTOM_RIGHT,
                         });
                     } else if (error.response.status === 401) {
-                        toast.error("Merci de verifier vos identifiants", {
+                        toast.error("Please check your login details", {
                             position: toast.POSITION.BOTTOM_RIGHT,
                         });
                     } else if (error.response.status === 500) {
@@ -27,12 +27,9 @@ export const postUserLogin = (data) => {
                         });
                     }
                 } else {
-                    toast.error(
-                        "Impossible de se connecter, Serveur Login HS",
-                        {
-                            position: toast.POSITION.BOTTOM_RIGHT,
-                        }
-                    );
+                    toast.error("Unable to connect, Server Login HS", {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                    });
                 }
             });
     };
@@ -42,7 +39,7 @@ export const obtainUserDetails = (token) => {
     return async (dispatch) => {
         try {
             const res = await axios.post(
-                "http://localhost:8000/api/v1/user/profile",
+                "http://localhost:3001/api/v1/user/profile",
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -92,7 +89,7 @@ export const putUserDetails = (token, putData) => {
     return async (dispatch) => {
         try {
             const res = await axios.put(
-                "http://localhost:8000/api/v1/user/profile",
+                "http://localhost:3001/api/v1/user/profile",
                 putData,
                 {
                     headers: { Authorization: `Bearer ${token}` },

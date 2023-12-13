@@ -6,8 +6,8 @@ export default function accountsUser(state = initialState, action) {
             return { ...state, accounts: action.accounts };
         case "GET_LIST_TRANSACTIONS_ACCOUNT_SELECTED":
             return { ...state, transactions: action.transactions };
-        case "USER_LOGOUT":
-            return {};
+        case "ACCOUNT_ERASE":
+            return initialState;
         default:
             return state;
     }

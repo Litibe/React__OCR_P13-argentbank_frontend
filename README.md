@@ -21,4 +21,4 @@ Ensuite :
 
 `cd Project-10-Bank-API` pour aller dans le dossier du projet
 
-` npm start ` pour lancer react en serveur de développement sur `http://localhost:8000 `.
+` npm run dev:server ` pour lancer react en serveur de développement sur `http://localhost:3001 `.

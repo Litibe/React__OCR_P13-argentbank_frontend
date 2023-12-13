@@ -8,7 +8,7 @@ export const getUserAccounts = (token) => {
     return async (dispatch) => {
         try {
             const res = await axios.get(
-                "http://localhost:8000/api/v1/accounts/",
+                "http://localhost:3001/api/v1/accounts/",
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }
@@ -48,7 +48,7 @@ export const getTransactionAccount = (token, idAccount) => {
     return async (dispatch) => {
         try {
             const res = await axios.get(
-                `http://localhost:8000/api/v1/accounts/${idAccount}/transactions/`,
+                `http://localhost:3001/api/v1/accounts/${idAccount}/transactions/`,
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }
@@ -87,6 +87,6 @@ export const getTransactionAccount = (token, idAccount) => {
 
 export const accountLogout = () => {
     return (dispatch) => {
-        return dispatch({ type: "USER_LOGOUT" });
+        return dispatch({ type: "ACCOUNT_ERASE" });
     };
 };
