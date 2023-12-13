@@ -122,6 +122,8 @@ paths:
             $ref: '#/definitions/Transactions'
         '401':
           description: Unauthorized
+        '404':
+          description: Account Not Found 
         '500':
           description: Internal Server Error
   /accounts/<id_account>/transactions/<id_transaction>/:
@@ -146,12 +148,14 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        '202':
           description: Get List of Transactions for Account Successfully
           schema:
             $ref: '#/definitions/Transactions'
         '401':
           description: Unauthorized
+        '404':
+          description: Account or/and Transaction Not Found 
         '500':
           description: Internal Server Error
 securityDefinitions:
