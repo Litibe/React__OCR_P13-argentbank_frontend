@@ -23,7 +23,7 @@ function ProtectedRoute({ children }) {
     const token = useSelector((state) => state.userDetails.token);
     if (token === null) {
         // not logged in so redirect to login page with the return url
-        return <Navigate to="/connexion" state={location.pathname} />;
+        return <Navigate to="/login" state={location.pathname} />;
     }
     return children;
 }
@@ -48,53 +48,51 @@ function RedirectHome() {
 export default function Router() {
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <>
-                <Route>
-                    <Route
-                        index
-                        path="/"
-                        element={
-                            <>
-                                <Header />
-                                <HomePage />
-                                <Footer />
-                            </>
-                        }
-                    ></Route>
-                    <Route
-                        path="/sign-in"
-                        element={
-                            <>
-                                <Header />
-                                <SignIn />
-                                <Footer />
-                            </>
-                        }
-                    />
-                    <Route path="/sign-out" element={<LogOut />} />
-                    <Route
-                        path="/profile/"
-                        element={
-                            <ProtectedRoute>
-                                <Header />
-                                <Profile />
-                                <Footer />
-                            </ProtectedRoute>
-                        }
-                    ></Route>
-                    <Route
-                        path="/profile/account/:idAccount/"
-                        element={
-                            <ProtectedRoute>
-                                <Header />
-                                <Account />
-                                <Footer />
-                            </ProtectedRoute>
-                        }
-                    ></Route>
-                    <Route index path="*" element={<RedirectHome />}></Route>
-                </Route>
-            </>
+            <Route>
+                <Route
+                    index
+                    path="/"
+                    element={
+                        <>
+                            <Header />
+                            <HomePage />
+                            <Footer />
+                        </>
+                    }
+                ></Route>
+                <Route
+                    path="/login"
+                    element={
+                        <>
+                            <Header />
+                            <SignIn />
+                            <Footer />
+                        </>
+                    }
+                />
+                <Route path="/sign-out" element={<LogOut />} />
+                <Route
+                    path="/profile/"
+                    element={
+                        <ProtectedRoute>
+                            <Header />
+                            <Profile />
+                            <Footer />
+                        </ProtectedRoute>
+                    }
+                ></Route>
+                <Route
+                    path="/profile/account/:idAccount/"
+                    element={
+                        <ProtectedRoute>
+                            <Header />
+                            <Account />
+                            <Footer />
+                        </ProtectedRoute>
+                    }
+                ></Route>
+                <Route index path="*" element={<RedirectHome />}></Route>
+            </Route>
         )
     );
     return router;

@@ -27,7 +27,7 @@ export default function Header() {
 
             <nav className="main-nav">
                 {getUserDetails.token === null ? (
-                    <Link to="/sign-in" className="main-nav-item">
+                    <Link to="/login" className="main-nav-item">
                         <i className="fa fa-user-circle"></i>
                         <span>Sign In</span>
                     </Link>
