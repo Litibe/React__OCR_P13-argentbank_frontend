@@ -1,31 +1,18 @@
 import argentBankLogo from "../assets/img/argentBankLogo.png";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import {
-    setUserTokenWithLocalStorage,
-    obtainUserDetails,
-} from "../features/redux/actions/user.actions";
+import { obtainUserDetails } from "../Store/actions/user.actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Header() {
     const getUserDetails = useSelector((state) => state.userDetails);
     const dispatch = useDispatch();
-    const localtokenAccessBank = localStorage.getItem("tokenAccessBank")
-        ? localStorage.getItem("tokenAccessBank")
-        : null;
     useEffect(() => {
-        if (
-            getUserDetails.token === undefined &&
-            localtokenAccessBank !== null
-        ) {
-            dispatch(setUserTokenWithLocalStorage(localtokenAccessBank));
-        } else if (
-            getUserDetails.token !== undefined &&
-            getUserDetails.id === undefined
-        ) {
+        if (getUserDetails.token !== null) {
             dispatch(obtainUserDetails(getUserDetails.token));
         }
-    }, [getUserDetails.token, getUserDetails.id, localtokenAccessBank]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getUserDetails.token, getUserDetails.id]);
 
     return (
         <header className="main-nav">
@@ -39,7 +26,7 @@ export default function Header() {
             </Link>
 
             <nav className="main-nav">
-                {getUserDetails.token === undefined ? (
+                {getUserDetails.token === null ? (
                     <Link to="/sign-in" className="main-nav-item">
                         <i className="fa fa-user-circle"></i>
                         <span>Sign In</span>
@@ -49,7 +36,7 @@ export default function Header() {
                         <Link to="/profile" className="main-nav-item">
                             <i className="fa fa-user-circle"></i>
                             <span>
-                                {getUserDetails.firstName !== undefined &&
+                                {getUserDetails.firstName !== null &&
                                     getUserDetails.firstName}
                             </span>
                         </Link>

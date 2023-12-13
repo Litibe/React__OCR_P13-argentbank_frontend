@@ -1,4 +1,4 @@
-const initialState = {};
+const initialState = { accounts: null, transactions: null };
 
 export default function accountsUser(state = initialState, action) {
     switch (action.type) {

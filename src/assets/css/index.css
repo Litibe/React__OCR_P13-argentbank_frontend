@@ -27,7 +27,6 @@ header {
     width: 100vw;
     background-color: white;
     font-size: 14px;
-    width: calc(100vw - 60px);
 }
 
 .main-nav {

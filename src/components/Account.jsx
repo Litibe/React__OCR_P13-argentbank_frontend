@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import {
     getUserAccounts,
     getTransactionAccount,
-} from "../features/redux/actions/account.actions";
+} from "../Store/actions/account.actions";
 
 export default function Account() {
     document.title = "ArgentBank - Account ";
@@ -16,20 +16,20 @@ export default function Account() {
     const getTransactions = useSelector(
         (state) => state.accountsUser.transactions
     );
-    const [newCategory, setNewCategory] = useState(undefined);
+    const [setNewCategory] = useState(undefined);
     const [editCategory, setEditCategory] = useState(false);
     const [newNotes, setnewNotes] = useState(undefined);
     const [editNotes, setEditNotes] = useState(false);
     const [listAccounts, setListAccount] = useState([]);
     useEffect(() => {
-        if (getUserDetails.token !== undefined) {
+        if (getUserDetails.token !== null) {
             dispatch(getUserAccounts(getUserDetails.token));
             dispatch(getTransactionAccount(getUserDetails.token, idAccount));
         }
     }, [dispatch, getUserDetails, idAccount]);
 
     useEffect(() => {
-        if (getAccounts !== undefined && getAccounts !== null) {
+        if (getAccounts !== null) {
             const myListAccount = [];
             getAccounts.map((element) => myListAccount.push(element.id));
             setListAccount(myListAccount);
@@ -55,7 +55,7 @@ export default function Account() {
     };
     return (
         <main className="bg-dark vh-100">
-            {getAccounts !== undefined &&
+            {getAccounts !== null &&
                 getAccounts.map((account) => (
                     <div key={account.id}>
                         {account.id === parseInt(idAccount, 10) && (
@@ -80,9 +80,7 @@ export default function Account() {
                 </h1>
             ) : (
                 <>
-                    {getTransactions !== undefined &&
-                    getTransactions !== null &&
-                    getTransactions.length > 0 ? (
+                    {getTransactions !== null && getTransactions.length > 0 ? (
                         <div className="transactions">
                             <div className="table_transaction_title">
                                 <div className="col-transation transaction-date">
@@ -95,8 +93,7 @@ export default function Account() {
                                 <div className="col-transation">Amount</div>
                                 <div className="col-transation">Balance</div>
                             </div>
-                            {getTransactions !== undefined &&
-                                getTransactions !== null &&
+                            {getTransactions !== null &&
                                 getTransactions.map((transac) => (
                                     <div
                                         key={transac.id}
@@ -130,7 +127,7 @@ export default function Account() {
                                                 {transac.transactionType}
                                             </div>
                                             <div>
-                                                <span>Catetory : </span>
+                                                <span>Category : </span>
                                                 {transac.category}{" "}
                                                 <i
                                                     className="fa-solid fa-pencil"

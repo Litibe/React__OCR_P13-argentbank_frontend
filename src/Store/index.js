@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import userDetails from "./user.reducer";
-import accountsUser from "./account.reducer";
+import userDetails from "./reducers/user.reducer";
+import accountsUser from "./reducers/account.reducer";
 
 export default combineReducers({
     userDetails,

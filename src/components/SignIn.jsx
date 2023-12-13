@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { postUserLogin } from "../features/redux/actions/user.actions";
+import { useEffect, useRef } from "react";
+import { postUserLogin } from "../Store/actions/user.actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,6 @@ export default function SignIn() {
     const form = useRef();
     const dispatch = useDispatch();
     const getUserDetails = useSelector((state) => state.userDetails);
-    const [connectUser, setConnectUser] = useState(false);
     const handleForm = async (e) => {
         e.preventDefault();
         const postData = {
@@ -17,17 +16,13 @@ export default function SignIn() {
         };
         dispatch(postUserLogin(postData));
     };
-    const [checkRememberMe, setCheckRememberMe] = useState(undefined);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (getUserDetails.token !== undefined) {
-            if (checkRememberMe === "on") {
-                localStorage.setItem("tokenAccessBank", getUserDetails.token);
-            }
+        if (getUserDetails.token !== null) {
             navigate("/profile");
         }
-    }, [checkRememberMe, dispatch, getUserDetails.token, navigate]);
+    }, [getUserDetails.token, navigate]);
     return (
         <main className="main bg-dark">
             <section className="sign-in-content">
@@ -45,14 +40,6 @@ export default function SignIn() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                        />
-                    </div>
-                    <div className="input-remember">
-                        <label htmlFor="remember-me">Remember me :</label>{" "}
-                        <input
-                            type="checkbox"
-                            id="remember-me"
-                            onClick={(e) => setCheckRememberMe(e.target.value)}
                         />
                     </div>
 

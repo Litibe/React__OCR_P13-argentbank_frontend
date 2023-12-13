@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { putUserDetails } from "../features/redux/actions/user.actions";
-import { getUserAccounts } from "../features/redux/actions/account.actions";
+import { putUserDetails } from "../Store/actions/user.actions";
+import { getUserAccounts } from "../Store/actions/account.actions";
 import { Link } from "react-router-dom";
 
 export default function Profile() {
@@ -12,14 +12,15 @@ export default function Profile() {
     const getAccounts = useSelector((state) => state.accountsUser);
 
     useEffect(() => {
-        if (getUserDetails.token !== undefined) {
-            if (getUserDetails.firstName !== undefined) {
+        if (getUserDetails.token !== null) {
+            if (getUserDetails.firstName !== null) {
                 document.title += " " + getUserDetails.firstName + " !";
             }
-            if (getAccounts.accounts === undefined) {
+            if (getAccounts.accounts === null) {
                 dispatch(getUserAccounts(getUserDetails.token));
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getAccounts, getUserDetails]);
 
     const [showEditUser, setShowEditUser] = useState(false);
@@ -43,15 +44,15 @@ export default function Profile() {
                     {showEditUser === false && (
                         <>
                             <br />
-                            {getUserDetails.firstName !== undefined &&
+                            {getUserDetails.firstName !== null &&
                                 getUserDetails.firstName}{" "}
-                            {getUserDetails.lastName !== undefined &&
+                            {getUserDetails.lastName !== null &&
                                 getUserDetails.lastName}
                         </>
                     )}{" "}
                     !
                 </h1>
-                {getUserDetails.id !== undefined && (
+                {getUserDetails.id !== null && (
                     <div className="customer">
                         N°Customer : {getUserDetails.id}
                     </div>
@@ -108,8 +109,7 @@ export default function Profile() {
                 )}
             </div>
             <h2 className="sr-only">Accounts</h2>
-            {getUserDetails.id !== undefined &&
-            getAccounts.accounts === null ? (
+            {getUserDetails.id !== null && getAccounts.accounts === null ? (
                 <>
                     <section className="account">
                         <div className="account-content-wrapper">
@@ -162,10 +162,9 @@ export default function Profile() {
                 </>
             ) : (
                 <>
-                    {getAccounts !== null && getAccounts !== undefined && (
+                    {getAccounts !== null && (
                         <>
-                            {getAccounts.accounts !== undefined &&
-                                getAccounts.accounts !== null &&
+                            {getAccounts.accounts !== null &&
                                 getAccounts.accounts.map((account) => (
                                     <section
                                         className="account"

@@ -3,7 +3,8 @@ import {
     createRoutesFromElements,
     useNavigate,
     Route,
-    Outlet,
+    useLocation,
+    Navigate,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,34 +13,19 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import HomePage from "../components/HomePage";
 import SignIn from "../components/SignIn";
-import { userLogout } from "../features/redux/actions/user.actions";
-import { accountLogout } from "../features/redux/actions/account.actions";
+import { userLogout } from "../Store/actions/user.actions";
+import { accountLogout } from "../Store/actions/account.actions";
 import Profile from "../components/Profile";
 import Account from "../components/Account";
 
-const ProtectedRoute = ({ redirectPath = "/sign-in", children }) => {
-    const navigate = useNavigate();
-    let getUserDetails = useSelector((state) => state.userDetails);
-    const localtokenAccessBank = localStorage.getItem("tokenAccessBank")
-        ? localStorage.getItem("tokenAccessBank")
-        : null;
-    useEffect(() => {
-        if (
-            getUserDetails.token === undefined &&
-            localtokenAccessBank === null
-        ) {
-            navigate(redirectPath);
-        }
-    }, [getUserDetails, localtokenAccessBank, navigate, redirectPath]);
-    return children ? children : <Outlet />;
-};
-
-function RedirectHome() {
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        navigate("/", { replace: true });
-    }, [navigate]);
+function ProtectedRoute({ children }) {
+    const location = useLocation();
+    const token = useSelector((state) => state.userDetails.token);
+    if (token === null) {
+        // not logged in so redirect to login page with the return url
+        return <Navigate to="/connexion" state={location.pathname} />;
+    }
+    return children;
 }
 
 function LogOut() {
@@ -52,6 +38,13 @@ function LogOut() {
     }, [navigate]);
 }
 
+function RedirectHome() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        navigate("/", { replace: true });
+    }, [navigate]);
+}
 export default function Router() {
     const router = createBrowserRouter(
         createRoutesFromElements(
